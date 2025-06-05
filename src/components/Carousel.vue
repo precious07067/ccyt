@@ -1,5 +1,5 @@
 <template>
-  <section className="overflow-x-hidden font-inter">
+  <section className="overflow-x-hidden">
     <Swiper
       :modules="[Autoplay, Navigation]"
       :slidesPerView="1"
@@ -8,101 +8,45 @@
       :spaceBetween="20"
       :navigation="true"
       :autoplay="{
-        delay: 5000,
+        delay: 2500,
         pauseOnMouseEnter: true,
         disableOnInteraction: false,
       }"
     >
       <SwiperSlide>
-        <div
-          className="hero1 p-4 min-h-screen flex flex-col justify-center gap-9 items-center"
-        >
-          <div className=" lg:w-3/4">
-            <h2
-              className="leading-normal font-syne text-4xl font-bold mt-4 bg-clip-text bg-gradient-to-r from-white via-[#CACACA] to-[#666161] text-transparent"
-            >
-              COMFORTABLE MANAGEMENT OF FINANCIAL SERVICES
-            </h2>
-            <p className=" font-space mt-3 text-base leading-loose">
-              OUR TEAM OF PROFESSIONALS WORK WITH EACH CLIENT TO UNDERSTAND
-              THEIR UNIQUE NEEDS AND CREATE A CUSTOMIZED PLAN THAT FITS THEIR
-              GOAL AND BUDGET, WHETHER YOU ARE LOOKING TO INVEST FOR THE FUTURE
-              SAVE FOR A BIG PURCHASE OR MANAGE YOUR DEBT. WE ARE HERE TO HELP
-            </p>
-
-            <router-link to="/register">
-              <button
-                className="bg-[#715952] w-full p-3 mt-3 h-14 font-space lg:w-1/2"
-              >
-                SIGN UP
-              </button>
-            </router-link>
-          </div>
+        <div className="hero1 flex justify-center items-center flex-col px-1 rounded-md">
+          <p className="text-xl text-gray-300">CITI BANK GROUP</p>
+          <h2 className="font-extrabold text-4xl text-center bg-clip-text bg-gradient-to-r from-white to-cyan-500 text-transparent">
+            ONLINE BANKING REDEFINED
+          </h2>
+          <button className="bg-blue-500 w-fit p-3 mt-3 rounded-md">
+            <router-link to="/register">Create account</router-link>
+          </button>
         </div>
       </SwiperSlide>
       <SwiperSlide>
-        <div
-          className="hero2 p-4 min-h-screen flex flex-col justify-center gap-9 items-center"
-        >
-          <div className=" lg:w-3/4">
-            <h2
-              className="leading-normal font-syne text-4xl font-bold mt-4 bg-clip-text bg-gradient-to-r from-white via-[#CACACA] to-[#666161] text-transparent uppercase"
-            >
-              Financial Inclusion
-            </h2>
-            <p className=" font-space mt-3 text-base leading-loose uppercase">
-              we have a goal to promote financial inclusion by offering services
-              to underserved populations. we focus on providing accessible and
-              affordable financial products to individuals and businesses that
-              have limited access to traditional banking services
-            </p>
-            <router-link to="/register">
-              <button
-                className="bg-[#715952] w-full p-3 mt-3 h-14 font-space lg:w-1/2"
-              >
-                SIGN UP
-              </button>
-            </router-link>
-          </div>
+        <div className="hero2 flex justify-center items-center flex-col px-1 rounded-md">
+          <h2 className="font-extrabold text-4xl text-center bg-clip-text bg-gradient-to-r from-white to-rose-500 text-transparent">
+            RESULT ORIENTED BANKING SERVICES
+          </h2>
+          <button className="bg-blue-500 w-fit p-3 mt-3 rounded-md">
+            <router-link to="/register">Create account</router-link>
+          </button>
         </div>
       </SwiperSlide>
       <SwiperSlide>
-        <div
-          className="hero3 p-4 min-h-screen flex flex-col justify-center gap-9 items-center"
-        >
-          <div className=" lg:w-3/4">
-            <h2
-              className="leading-normal font-syne text-4xl font-bold mt-4 bg-clip-text bg-gradient-to-r from-white via-[#CACACA] to-[#666161] text-transparent uppercase"
-            >
-              Corporate Social Responsibility
-            </h2>
-            <p className=" font-space mt-3 text-base leading-loose uppercase">
-              in recent years we have increasingly prioritize corporate social
-              responsibility (CSR). we strive to contribute positively to
-              society and the environment through philanthropic initiatives,
-              ethical investments, sustainability practices, and community
-              involvement
-            </p>
-
-            <router-link to="/register">
-              <button
-                className="bg-[#715952] w-full p-3 mt-3 h-14 font-space lg:w-1/2"
-              >
-                SIGN UP
-              </button>
-            </router-link>
-          </div>
+        <div className="hero3 flex justify-center items-center flex-col px-1 rounded-md">
+          <h2 className="text-stroke font-bold text-4xl text-center bg-clip-text bg-gradient-to-r from-white to-rose-500 text-transparent">
+            SIMPLE. TRANSPARENT. SECURE
+          </h2>
+          <p className="text-xl text-white text-center">
+            Sign up today and experience the convenience of online banking!
+          </p>
+          <button className="bg-blue-500 w-fit p-3 mt-3 rounded-md">
+            <router-link to="/register">Create account</router-link>
+          </button>
         </div>
       </SwiperSlide>
-      <!-- <SwiperSlide>
-        <Header />
-      </SwiperSlide>
-      <SwiperSlide>
-        <Header2 />
-      </SwiperSlide>
-      <SwiperSlide>
-        <Header />
-      </SwiperSlide> -->
     </Swiper>
   </section>
 </template>
@@ -112,8 +56,6 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
-import Header from "./Header.vue";
-import Header2 from "./Header2.vue";
 </script>
 
 <style scoped>
