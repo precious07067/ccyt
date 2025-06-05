@@ -2,6 +2,11 @@
   <div
     class="flex items-center justify-center min-h-screen flex-col text-slight-dark lg:px-lg px-4"
   >
+    <AlertBackdrop
+      :is-open="showAlert"
+      @close="closeAlert"
+      :title="customTitle"
+    />
     <h2 class="font-semibold text-xl text-center">
       Login to your bank account
     </h2>
@@ -49,6 +54,7 @@
 <script setup>
 import Cookies from "js-cookie";
 import BaseInput from "@/components/BaseInput.vue";
+import AlertBackdrop from "@/components/AlertBackdrop.vue";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { npcAPI } from "../axios/api";
@@ -56,18 +62,30 @@ const router = useRouter();
 const route = useRoute();
 import Loader from "@/components/Loader.vue";
 import Error from "@/components/Error.vue";
+
 const loading = ref(false);
 const success = ref(false);
 const checked = ref(false);
 const err = ref(false);
 const errMSG = ref("");
+const showAlert = ref(false);
+const customTitle = ref("Account Suspended");
+
 const userDetails = ref({
-  email: "",
+  acc_no: "",
   password: "",
 });
 
+const closeAlert = () => {
+  showAlert.value = false;
+  userDetails.value.acc_no = "";
+  userDetails.value.password = "";
+};
+
 const login = async () => {
   loading.value = true;
+  err.value = false; // Reset error state
+  
   try {
     const { data } = await npcAPI.post("/login", {
       ...userDetails.value,
@@ -75,9 +93,16 @@ const login = async () => {
     localStorage.setItem("token", data.token);
     router.push("/dashboard");
   } catch (e) {
-    // console.log(e);
-    err.value = true;
-    errMSG.value = e.response.data.msg || e;
+    console.log(e);
+    
+    const blocked = e?.response?.data?.blocked;
+    
+    if (blocked) {
+      showAlert.value = true;
+    } else {
+      err.value = true;
+      errMSG.value = e.response.data.msg || e;
+    }
   } finally {
     loading.value = false;
   }
