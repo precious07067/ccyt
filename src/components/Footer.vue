@@ -23,27 +23,7 @@
         <router-link to="/privacypolicy">Privacy policy</router-link>
       </span>
     </div>
-    <div class="flex flex-col">
-      <h3 class="font-bold text-base">Support</h3>
-      <span class="flex flex-col text-sm">
-        <router-link to="/contact">Contact us</router-link>
-      </span>
-    </div>
-    <div class="text-sm">
-      <p>
-        <strong>Phone:</strong
-        ><a href="tel:+1 (805) 818-9894"> +1 (805) 818-9894</a>
-      </p>
-      <p>
-        <strong>Email: </strong
-        ><a href="mailto:lewisburgbanking@gmail.com"> lawrencewilliams@accountant.com</a>
-      </p>
-      <p>
-        <strong>Address: </strong>
-        109 Park Ave, Adairville, KY 42202, United States 
-      </p>
-    </div>
-  </footer>
+          </footer>
 </template>
 
 <script setup></script>
