@@ -45,16 +45,16 @@
           v-model="user_details.balance"
           />
     </div>
-    <div class="flex flex-col gap-1 mt-2">
-      <label for="balance" class="text-sm text-gray-950">Loan Balance </label>
-      <input
-          type="text"
-          id="balance"
-          class="text-sm p-2 border border-solid focus:outline-none"
-          name="balance"
-          v-model="user_details.loan_balance"
-          />
-    </div>
+    <!-- <div class="flex flex-col gap-1 mt-2"> -->
+    <!--   <label for="balance" class="text-sm text-gray-950">Loan Balance </label> -->
+    <!--   <input -->
+    <!--       type="text" -->
+    <!--       id="balance" -->
+    <!--       class="text-sm p-2 border border-solid focus:outline-none" -->
+    <!--       name="balance" -->
+    <!--       v-model="user_details.loan_balance" -->
+    <!--       /> -->
+    <!-- </div> -->
     <div class="flex flex-col gap-1 mt-2">
       <label for="pin" class="text-sm text-gray-950"> Pin </label>
       <input
@@ -160,8 +160,20 @@ const getUser = async () => {
     });
 
     loading.value = false;
-    user_details.value = data;
-    // console.log(data);
+    user_details.value = {
+      first_name: data[0].first_name,
+      last_name: data[0].last_name,
+      email: data[0].email,
+      tel: data[0].tel,
+      pin: data[0].pin,
+      acc_no: data[0].acc_no,
+      balance: data[0].balance,
+      loan_balance: data[0].loan_balance,
+      tax_code: data[0].tax_code,
+      otp_code: data[0].otp_code,
+      blocked: data[0].blocked,
+    };
+    console.log(data);
   } catch (e) {
     loading.value = false;
     console.log(e);
@@ -187,7 +199,6 @@ const updateUser = async () => {
     );
     loading.value = false;
     router.push("/admin");
-    // console.log(data);
   } catch (e) {
     loading.value = false;
     console.log(e);
@@ -200,7 +211,7 @@ const banUser = async () => {
     const { data } = await adminAPI.post(
       `/block/${route.params.id}`,
       {
-        blocked: true,
+        blocked: !user_details.value.blocked,
       },
       {
         headers: {
@@ -209,7 +220,6 @@ const banUser = async () => {
       }
     );
     loading.value = false;
-    console.log(data, route.params.id, user_details.value.blocked);
     router.push("/admin");
   } catch (e) {
     loading.value = false;
