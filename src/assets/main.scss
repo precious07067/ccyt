@@ -2,7 +2,7 @@
 
 .hero3 {
   background: linear-gradient(rgba(2, 2, 2, 0.336), rgba(10, 11, 12, 0.84)),
-    url("https://cdn.businessday.ng/2021/10/Untitled-design-2021-10-07T100255.303.png") 50% no-repeat;
+    url("/src/assets/images/hero1.jpeg") 50% no-repeat;
   background-size: cover;
   height: 100vh;
   background-attachment: fixed;
@@ -10,7 +10,7 @@
 
   @media (max-width: 600px) {
     background: linear-gradient(rgba(2, 2, 2, 0.336), rgba(10, 11, 12, 0.84)),
-      url("https://cdn.businessday.ng/2021/10/Untitled-design-2021-10-07T100255.303.png") 50% no-repeat;
+      url("/src/assets/images/hero2.jpeg") 50% no-repeat;
     height: 80vh;
     background-size: cover;
   }
@@ -18,15 +18,16 @@
 
 .hero2 {
   background: linear-gradient(rgba(2, 2, 2, 0.336), rgba(10, 11, 12, 0.84)),
-    url("https://res.cloudinary.com/people-matters/image/upload/fl_immutable_cache,w_624,h_351,q_auto,f_auto/v1648688006/1648688004.jpg") 50% no-repeat;
+      url("/src/assets/images/hero3.jpeg") 50% no-repeat;
   background-size: cover;
+  height: 80vh;
   height: 100vh;
   background-attachment: fixed;
   background-position: center;
 
   @media (max-width: 600px) {
     background: linear-gradient(rgba(2, 2, 2, 0.336), rgba(10, 11, 12, 0.84)),
-      url("https://res.cloudinary.com/people-matters/image/upload/fl_immutable_cache,w_624,h_351,q_auto,f_auto/v1648688006/1648688004.jpg") 50% no-repeat;
+      url("/src/assets/images/hero4.jpeg") 50% no-repeat;
     height: 80vh;
     background-size: cover;
   }
@@ -34,7 +35,7 @@
 
 .hero1 {
   background: linear-gradient(rgba(2, 2, 2, 0.336), rgba(10, 11, 12, 0.84)),
-    url("https://www.ft.com/__origami/service/image/v2/images/raw/https://specialist-asset-management.s3.amazonaws.com/tb/ezflow_site/storage/images/media/images/citi-offices/13195680-1-eng-GB/Citi-offices.jpg?source=specialist-tb-article&width=816") 50% no-repeat;
+    url("/src/assets/images/hero5.jpeg") 50% no-repeat;
   background-size: cover;
   height: 100vh;
   background-attachment: fixed;
@@ -42,7 +43,7 @@
 
   @media (max-width: 600px) {
     background: linear-gradient(rgba(2, 2, 2, 0.336), rgba(10, 11, 12, 0.84)),
-      url("https://www.ft.com/__origami/service/image/v2/images/raw/https://specialist-asset-management.s3.amazonaws.com/tb/ezflow_site/storage/images/media/images/citi-offices/13195680-1-eng-GB/Citi-offices.jpg?source=specialist-tb-article&width=500") 50% no-repeat;
+      url("/src/assets/images/hero5.jpeg") 50% no-repeat;
     height: 80vh;
     background-size: cover;
   }
