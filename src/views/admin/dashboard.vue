@@ -56,7 +56,6 @@ const getUsers = async () => {
     });
     loading.value = false;
     users.value = data;
-    // console.log(res.data);
   } catch (e) {
     loading.value = false;
     console.log(e);

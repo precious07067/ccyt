@@ -58,10 +58,18 @@ const login = async () => {
       ...userDetails.value,
     });
     localStorage.setItem("admin", data.token);
-    localStorage.setItem("ref", data.ref);
+    const { data: adminDetail } = await adminAPI.get("/admin_detail", 
+    {
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+    });
+
+    console.log(adminDetail);
+    localStorage.setItem("ref", adminDetail.ref_code || "");
     router.push("/admin");
   } catch (e) {
-    // console.log(e);
+    console.log(e)
     err.value = true;
     errMSG.value = e.response.data.msg || e;
   } finally {
