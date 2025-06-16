@@ -20,6 +20,11 @@ import Request from "@/views/dashboard/Request.vue";
 import AdminRequest from "@/views/admin/Request.vue";
 import RequestDetail from "@/views/admin/RequestDetail.vue";
 
+// New Pages
+import Shipments from "@/views/admin/Shipments.vue";
+import CreateShipment from "@/views/admin/CreateShipment.vue";
+import ShipmentDetail from "@/views/admin/ShipmentDetail.vue";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -143,6 +148,22 @@ const router = createRouter({
           path: "request/:id",
           name: "Card request Detail",
           component: RequestDetail,
+        },
+        // --- NEW SHIPMENT ROUTES ---
+        {
+          path: "shipments",
+          name: "Admin Shipments",
+          component: Shipments,
+        },
+        {
+          path: "shipments/create",
+          name: "Create Shipment",
+          component: CreateShipment,
+        },
+        {
+          path: "shipments/:id",
+          name: "Shipment Details",
+          component: ShipmentDetail,
         },
       ],
     },

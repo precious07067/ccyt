@@ -1,54 +1,105 @@
 <template>
-  <main class="min-h-screen bg-gray-100 mt-5 py-10 px-4">
+  <main class="min-h-screen bg-gray-50">
     <NavBar />
-    
-    <div class="max-w-4xl mx-auto mt-16">
-      
-      <div v-if="loading" class="text-center p-10 bg-white rounded-lg shadow-md">
-        <Loader />
-        <p class="mt-4 text-gray-600">Fetching tracking details...</p>
-      </div>
-      
-      <div v-else-if="error" class="text-center p-10 bg-white rounded-lg shadow-md">
-         <h2 class="text-2xl font-bold text-red-500">Request Not Found</h2>
-         <p class="mt-2 text-gray-600">{{ error }}</p>
-         <router-link to="/" class="mt-6 inline-block bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600">
-           Go to Home
-         </router-link>
+
+    <div class="container mx-auto max-w-5xl px-4 py-8 pt-24 md:py-12 md:pt-28">
+      <!-- Loading State -->
+      <div v-if="loading" class="text-center p-10 bg-white rounded-xl shadow-lg">
+        <Loader text="Searching for your shipment..." />
       </div>
 
-      <div v-else-if="requestDetails" class="bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="p-6 border-b border-gray-200">
-            <h1 class="text-2xl font-bold text-gray-800">Tracking Details</h1>
-            <p class="text-gray-500">Tracking Number: <strong class="font-mono">{{ requestDetails.tracking_no }}</strong></p>
-            <div class="mt-4 p-4 bg-gray-50 rounded-md">
-                <h3 class="font-semibold text-gray-700">Shipping Address</h3>
-                <p class="text-gray-600">{{ requestDetails.address }}</p>
+      <!-- Error State -->
+      <div v-else-if="error" class="text-center p-10 bg-white rounded-xl shadow-lg">
+        <div class="mx-auto w-16 h-16 flex items-center justify-center bg-red-100 rounded-full">
+          <i class="bi bi-x-lg text-3xl text-red-500"></i>
+        </div>
+        <h2 class="mt-5 text-2xl font-bold text-gray-800">Shipment Not Found</h2>
+        <p class="mt-2 text-gray-600 max-w-md mx-auto">{{ error }}</p>
+        <router-link to="/" class="mt-8 inline-block bg-orange-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors">
+          Return to Home
+        </router-link>
+      </div>
+
+      <!-- Main Content -->
+      <div v-else-if="shipmentDetails" class="space-y-8">
+        
+        <!-- Status Header Card -->
+        <div class="rounded-xl shadow-lg p-6 md:p-8" :class="overallStatus.cardBg">
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div>
+              <p class="text-sm font-semibold uppercase tracking-wider" :class="overallStatus.textOpacity">Current Status</p>
+              <h1 class="text-3xl md:text-4xl font-bold text-white mt-1">{{ overallStatus.text }}</h1>
+              <p class="font-mono mt-3" :class="overallStatus.textOpacity">
+                Tracking #{{ shipmentDetails.tracking_no }}
+              </p>
             </div>
+            <div class="w-20 h-20 flex-shrink-0 flex items-center justify-center bg-white/20 rounded-full">
+              <i :class="[overallStatus.icon, 'text-5xl text-white']"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <div class="flex justify-between items-center text-xs md:text-sm font-medium text-gray-500">
+            <span>Pending</span>
+            <span>Processing</span>
+            <span>Shipped</span>
+            <span>Delivered</span>
+          </div>
+          <div class="mt-2 h-2.5 w-full rounded-full bg-gray-200">
+            <div class="h-2.5 rounded-full" :class="progressInfo.color" :style="{ width: progressInfo.width }"></div>
+          </div>
         </div>
 
-        <div class="p-6">
-            <h2 class="text-xl font-semibold text-gray-800 mb-6">Request History</h2>
-            <ol class="relative border-l border-gray-200 dark:border-gray-700">                  
-                <li v-for="(event, index) in timelineEvents" :key="index" class="mb-10 ml-6">            
-                    <span class="absolute flex items-center justify-center w-8 h-8 rounded-full -left-4 ring-4 ring-white" :class="getIconBgColor(event.status)">
-                        <component :is="getIcon(event.status)" class="w-4 h-4 text-white" />
+        <!-- Details & Timeline Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          <!-- Shipment Details (Left/Top) -->
+          <div class="lg:col-span-1 space-y-6">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="font-bold text-lg text-gray-800 mb-4">Item Details</h3>
+                <div class="space-y-3 text-sm">
+                    <div>
+                        <p class="text-gray-500">Item Type</p>
+                        <p class="text-gray-800 font-semibold">{{ shipmentDetails.item_type }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500">Description</p>
+                        <p class="text-gray-700">{{ shipmentDetails.item_description || 'No description available.' }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="font-bold text-lg text-gray-800 mb-4">Destination</h3>
+                <p class="text-gray-700 text-sm leading-relaxed">{{ shipmentDetails.shipping_address }}</p>
+            </div>
+          </div>
+
+          <!-- Timeline (Right/Bottom) -->
+          <div class="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-8">Shipment History</h2>
+            <ol class="relative border-l-2 border-gray-200">                  
+                <li v-for="(event, index) in sortedTimeline" :key="index" class="mb-10 ml-6">            
+                    <span class="absolute flex items-center justify-center w-10 h-10 rounded-full -left-5 ring-4 ring-white" :class="statusClass(event.status).iconBg">
+                        <i :class="[statusClass(event.status).icon, 'text-white text-xl']"></i>
                     </span>
-                    <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm ml-2">
-                        <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900">
+                    <div class="bg-gray-50 rounded-lg p-4 ml-4">
+                        <h3 class="text-md font-semibold text-gray-900">
                             {{ event.status }}
                         </h3>
-                        <time class="block mb-2 text-sm font-normal leading-none text-gray-400">
+                        <time class="block mb-2 text-xs font-normal text-gray-500">
                             {{ new Date(event.date).toLocaleString() }}
                         </time>
-                        <p v-if="event.description" class="text-base font-normal text-gray-600">{{ event.description }}</p>
-                        <div v-if="event.location" class="flex items-center mt-3 text-sm text-gray-500">
-                          <component :is="MapPinIcon" class="w-4 h-4 mr-2" />
+                        <p v-if="event.description" class="text-sm font-normal text-gray-700">{{ event.description }}</p>
+                        <div v-if="event.location" class="flex items-center mt-2 text-sm text-gray-600 font-medium">
+                          <i class="bi bi-geo-alt-fill mr-2 flex-shrink-0 text-gray-400"></i>
                           <span>{{ event.location }}</span>
                         </div>
                     </div>
                 </li>
             </ol>
+          </div>
         </div>
       </div>
     </div>
@@ -56,68 +107,83 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, h } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import NavBar from "../components/NavBar.vue";
 import { npcAPI } from "../axios/api";
 import Loader from "@/components/Loader.vue";
 
-const MapPinIcon = { render: () => h('svg', { xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24", "stroke-width": "1.5", stroke: "currentColor"}, [h('path', { "stroke-linecap":"round", "stroke-linejoin":"round", d:"M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" }), h('path', { "stroke-linecap":"round", "stroke-linejoin":"round", d:"M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" })]) };
-const CheckIcon = { render: () => h('svg', { xmlns: "http://www.w3.org/2000/svg", fill:"none", viewBox:"0 0 24 24", "stroke-width":"1.5", stroke:"currentColor" }, [h('path', { "stroke-linecap":"round", "stroke-linejoin":"round", d:"M4.5 12.75l6 6 9-13.5" })]) };
-const DocumentTextIcon = { render: () => h('svg', { xmlns:"http://www.w3.org/2000/svg", fill:"none", viewBox:"0 0 24 24", "stroke-width":"1.5", stroke:"currentColor" }, [h('path', { "stroke-linecap":"round", "stroke-linejoin":"round", d:"M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" })]) };
-const TruckIcon = { render: () => h('svg', { xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24", "stroke-width": "1.5", stroke: "currentColor" }, [h('path', { "stroke-linecap": "round", "stroke-linejoin": "round", d: "M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v.958m12.026 11.177a48.554 48.554 0 01-10.026 0" })]) };
-const ClockIcon = { render: () => h('svg', { xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24", "stroke-width": "1.5", stroke: "currentColor" }, [h('path', { "stroke-linecap": "round", "stroke-linejoin": "round", d: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" })]) };
-const XCircleIcon = { render: () => h('svg', { xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24", "stroke-width": "1.5", stroke: "currentColor" }, [h('path', { "stroke-linecap": "round", "stroke-linejoin": "round", d: "M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" })]) };
-
 const route = useRoute();
 const loading = ref(true);
 const error = ref(null);
-const requestDetails = ref(null);
+const shipmentDetails = ref(null);
 
-const timelineEvents = computed(() => {
-    if (!requestDetails.value || !requestDetails.value.timeline) return [];
+const sortedTimeline = computed(() => {
+    if (!shipmentDetails.value || !shipmentDetails.value.timeline) return [];
     
-    const initialRequestEvent = {
+    const creationEvent = {
         status: 'Pending',
-        description: 'Your card request has been submitted and is awaiting review.',
-        date: requestDetails.value.createdAt,
+        description: 'Shipment record created in system.',
+        date: shipmentDetails.value.createdAt
+    };
+
+    return [...shipmentDetails.value.timeline, creationEvent]
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
+});
+
+const overallStatus = computed(() => {
+    if (!shipmentDetails.value) return {};
+    const currentStatus = sortedTimeline.value[0]?.status || 'Pending';
+    const statusInfo = statusClass(currentStatus);
+    return {
+        text: currentStatus,
+        ...statusInfo,
+    };
+});
+
+const progressInfo = computed(() => {
+    if (!shipmentDetails.value) return { width: '0%', color: 'bg-gray-200' };
+    const status = overallStatus.value.text;
+    
+    const stages = {
+        'Pending': { width: '10%', color: 'bg-yellow-400' },
+        'Approved': { width: '25%', color: 'bg-yellow-400' },
+        'Processing': { width: '40%', color: 'bg-blue-500' },
+        'Shipped': { width: '65%', color: 'bg-blue-500' },
+        'Arrived at': { width: '85%', color: 'bg-purple-500' },
+        'Delivered': { width: '100%', color: 'bg-green-500' },
+        'Denied': { width: '100%', color: 'bg-red-500' },
+        'Cancelled': { width: '100%', color: 'bg-red-500' },
     };
     
-    return [initialRequestEvent, ...requestDetails.value.timeline].sort((a, b) => new Date(a.date) - new Date(b.date));
+    return stages[status] || stages['Pending'];
 });
 
 
 const track = async () => {
   try {
     const { data } = await npcAPI.get(`/track-order/${route.params.id}`);
-    requestDetails.value = data;
+    shipmentDetails.value = data;
   } catch (e) {
-    error.value = e.response?.data?.msg || "Could not retrieve tracking details.";
-    console.log(e);
+    error.value = e.response?.data?.msg || "Could not retrieve tracking details. Please check the tracking number and try again.";
   } finally {
     loading.value = false;
   }
 };
 
-const getIcon = (status) => {
-    switch (status?.toLowerCase()) {
-        case 'approved': return CheckIcon;
-        case 'shipped': return TruckIcon;
-        case 'in progress': return ClockIcon;
-        case 'denied': return XCircleIcon;
-        case 'pending':
-        default: return DocumentTextIcon;
-    }
-};
-
-const getIconBgColor = (status) => {
-    switch (status?.toLowerCase()) {
-        case 'approved': return 'bg-green-500';
-        case 'shipped': return 'bg-blue-500';
-        case 'in progress': return 'bg-orange-500';
-        case 'denied': return 'bg-red-500';
-        case 'pending':
-        default: return 'bg-gray-400';
+const statusClass = (status) => {
+    const baseClasses = "text-white/80";
+    switch (status) {
+        case 'Delivered': return { icon: 'bi bi-check2-circle', cardBg: 'bg-gradient-to-br from-green-500 to-emerald-600', textOpacity: baseClasses };
+        case 'Approved': return { icon: 'bi bi-patch-check', cardBg: 'bg-gradient-to-br from-green-500 to-emerald-600', textOpacity: baseClasses };
+        case 'Shipped': return { icon: 'bi bi-truck', cardBg: 'bg-gradient-to-br from-blue-500 to-indigo-600', textOpacity: baseClasses };
+        case 'Arrived at': return { icon: 'bi bi-building-check', cardBg: 'bg-gradient-to-br from-purple-500 to-violet-600', textOpacity: baseClasses };
+        case 'Processing':
+        case 'In Progress': return { icon: 'bi bi-hourglass-split', cardBg: 'bg-gradient-to-br from-orange-500 to-amber-600', textOpacity: baseClasses };
+        case 'Denied':
+        case 'Cancelled': return { icon: 'bi bi-x-octagon', cardBg: 'bg-gradient-to-br from-red-500 to-rose-600', textOpacity: baseClasses };
+        case 'Pending':
+        default: return { icon: 'bi bi-file-earmark-text', cardBg: 'bg-gradient-to-br from-gray-500 to-slate-600', textOpacity: baseClasses };
     }
 };
 

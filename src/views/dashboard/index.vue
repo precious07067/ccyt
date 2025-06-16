@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex min-h-screen">
+  <div class="relative flex min-h-screen bg-red">
     <div
       :class="[
         'fixed inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0',

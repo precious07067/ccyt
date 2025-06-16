@@ -68,14 +68,14 @@
                 <div class="flex justify-between items-center">
                   <p class="text-sm text-gray-600">Overdraft Limit</p>
                   <p class="text-sm font-semibold text-gray-800 flex items-center">
-                    <img src="@/assets/limitcopy.png" alt="overdraft" class="h-5 inline-block mr-2" />
+                    <!-- <img src="@/assets/limitcopy.png" alt="overdraft" class="h-5 inline-block mr-2" /> -->
                     {{ isBalanceVisible ? $filters.formatCurrency(overdraftLimit) : '*****' }}
                   </p>
                 </div>
                 <div class="flex justify-between items-center">
                   <p class="text-sm text-gray-600">Monthly Expenses</p>
                   <p class="text-sm font-semibold text-red-500 flex items-center">
-                    <img src="@/assets/limit.png" alt="expenses" class="h-5 inline-block mr-2" />
+                    <!-- <img src="@/assets/limit.png" alt="expenses" class="h-5 inline-block mr-2" /> -->
                     {{ isBalanceVisible ? $filters.formatCurrency(monthlyExpenses) : '*****' }}
                   </p>
                 </div>

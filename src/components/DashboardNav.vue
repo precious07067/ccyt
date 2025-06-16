@@ -1,5 +1,5 @@
 <template>
-  <nav class="h-screen w-64 bg-gray-100 p-4 flex flex-col">
+  <nav class="h-full w-64 bg-gray-100 p-4 flex flex-col">
     <div class="flex items-center justify-between mb-8">
         <router-link to="/dashboard">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeTiCUOEW67XL413XtXTOc8MLXuvJQzKEGAC9lzsHlJqI1zzUerW86eigLAbMn_YZn3R0&usqp=CAU" alt="logo" class="h-[30px]" />

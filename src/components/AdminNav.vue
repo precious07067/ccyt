@@ -1,5 +1,5 @@
 <template>
-  <nav class="h-screen w-64 bg-slate-800 p-4 text-white flex flex-col">
+  <nav class="h-full w-64 bg-slate-800 p-4 text-white flex flex-col">
     <div class="flex items-center justify-between mb-8">
         <router-link to="/admin" class="font-syne text-xl font-bold">Citi Bank Admin</router-link>
         <button @click="$emit('close-sidebar')" class="lg:hidden p-2">
@@ -14,14 +14,17 @@
         <RouterLink to="/admin/transactions" class="flex items-center gap-x-2 p-2 rounded-md hover:bg-slate-700">
           <i class="bi bi-send text-xl"></i> Transactions
         </RouterLink>
+        <RouterLink to="/admin/shipments" class="flex items-center gap-x-2 p-2 rounded-md hover:bg-slate-700">
+          <i class="bi bi-box-seam text-xl"></i> Shipments
+        </RouterLink>
+        <RouterLink to="/admin/requests" class="flex items-center gap-x-2 p-2 rounded-md hover:bg-slate-700">
+          <i class="bi bi-credit-card-2-front text-xl"></i> Card request
+        </RouterLink>
         <RouterLink to="/admin/adminList" class="flex items-center gap-x-2 p-2 rounded-md hover:bg-slate-700">
           <i class="bi bi-people-fill text-xl"></i> Admin List
         </RouterLink>
         <RouterLink to="/admin/password" class="flex items-center gap-x-2 p-2 rounded-md hover:bg-slate-700">
           <i class="bi bi-key text-xl"></i> Change Password
-        </RouterLink>
-        <RouterLink to="/admin/requests" class="flex items-center gap-x-2 p-2 rounded-md hover:bg-slate-700">
-          <i class="bi bi-credit-card-2-front text-xl"></i> Card request
         </RouterLink>
     </div>
     
@@ -43,6 +46,7 @@ defineEmits(['close-sidebar']);
 
 const logout = () => {
   localStorage.removeItem("admintoken");
+  localStorage.removeItem("ref");
   router.push("/adminLogin");
 };
 </script>
