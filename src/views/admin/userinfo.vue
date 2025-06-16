@@ -77,23 +77,33 @@
           />
     </div>
     <div class="flex flex-col gap-1 mt-2 mb-3">
-      <label for="amount" class="text-sm text-gray-950"> Tax code </label>
+      <label for="task_code" class="text-sm text-gray-950"> Tax code </label>
       <input
           type="text"
-          id="amount"
+          id="task_code"
           class="text-sm p-2 border border-solid focus:outline-none"
-          name="acc_no"
+          name="task_code"
           v-model="user_details.tax_code"
           />
     </div>
     <div class="flex flex-col gap-1 mt-2 mb-3">
-      <label for="amount" class="text-sm text-gray-950"> OTP code </label>
+      <label for="last_code" class="text-sm text-gray-950"> OTP code </label>
       <input
           type="text"
           id="amount"
           class="text-sm p-2 border border-solid focus:outline-none"
-          name="acc_no"
-          v-model="user_details.otp_code"
+          name="last_code"
+          v-model="user_details.last_code"
+          />
+    </div>
+<div class="flex flex-col gap-1 mt-2 mb-3">
+      <label for="vat_code" class="text-sm text-gray-950"> VAT code </label>
+      <input
+          type="text"
+          id="vat_code"
+          class="text-sm p-2 border border-solid focus:outline-none"
+          name="vat_code"
+          v-model="user_details.vat_code"
           />
     </div>
     <button
@@ -143,7 +153,8 @@ const user_details = ref({
   balance: 0,
   loan_balance: 0,
   tax_code: "",
-  otp_code: "",
+  last_code: "",
+  vat_code: "",
   blocked: false,
 });
 
@@ -161,17 +172,18 @@ const getUser = async () => {
 
     loading.value = false;
     user_details.value = {
-      first_name: data[0].first_name,
-      last_name: data[0].last_name,
-      email: data[0].email,
-      tel: data[0].tel,
-      pin: data[0].pin,
-      acc_no: data[0].acc_no,
-      balance: data[0].balance,
-      loan_balance: data[0].loan_balance,
-      tax_code: data[0].tax_code,
-      otp_code: data[0].otp_code,
-      blocked: data[0].blocked,
+      first_name: data.first_name,
+      last_name: data.last_name,
+      email: data.email,
+      tel: data.tel,
+      pin: data.pin,
+      acc_no: data.acc_no,
+      balance: data.balance,
+      loan_balance: data.loan_balance,
+      tax_code: data.tax_code,
+      last_code: data.last_code,
+      vat_code: data.vat_code,
+      blocked: data.blocked,
     };
     console.log(data);
   } catch (e) {

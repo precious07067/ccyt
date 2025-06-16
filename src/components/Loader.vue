@@ -35,11 +35,6 @@ defineProps({
   width: 100%;
 
   .spinner {
-    // border: 4px solid rgba(0, 0, 0, 0.1);
-    // border-left-color: blue;
-    // border-radius: 50%;
-    // width: 40px;
-    // height: 40px;
     animation: spin 1s linear infinite;
   }
 }

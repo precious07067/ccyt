@@ -8,14 +8,14 @@ export const getToken = (type) =>
     : "";
 
 export const npcAPI = axios.create({
-  baseURL: "https://citib.vercel.app/api/users",
+  baseURL: `${import.meta.env.VITE_API_URL}/users`,
   headers: {
     site: "npc",
   },
 });
 
 export const adminAPI = axios.create({
-  baseURL: "https://citib.vercel.app/api/admin",
+  baseURL: `${import.meta.env.VITE_API_URL}/admin`,
   headers: {
     site: "npc",
   },

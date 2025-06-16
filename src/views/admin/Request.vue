@@ -9,7 +9,7 @@
     <div class="mt-3 w-full" v-else>
       <RouterLink
         v-for="(request, index) in requests"
-        :to="`/admin/request/${request._id}`"
+        :to="`/admin/request/${request.id}`"
         :key="index"
       >
         <div

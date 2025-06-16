@@ -13,10 +13,7 @@
       <h3 class="text-base font-medium text-[#222222] text-center">
         {{ msg }}
       </h3>
-      <!-- <p v-if="showThanks" class="text-sm font-normal text-text-black">
-        Thank you for sharing.
-      </p> -->
-    </div>
+          </div>
   </div>
 </template>
 

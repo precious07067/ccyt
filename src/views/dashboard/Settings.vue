@@ -1,125 +1,123 @@
 <template>
-  <main class="bg-gray-300 min-h-screen">
-    <div class="lg:px-lg p-4 flex items-center pt-14 flex-col gap-4">
-      <div class="w-full bg-white p-4 shadow flex items-center gap-3">
-        <div>
-          <h2 class="font-semibold text-slight-dark text-sm">
-            {{ store.userInfo.name }}
-          </h2>
-          <p class="font-medium text-slight-dark text-sm">
-            {{ store.userInfo.email }}
-          </p>
+  <main class="p-4 lg:p-8">
+    <div class="max-w-7xl mx-auto space-y-8">
+      <h1 class="text-3xl font-bold text-gray-800">Profile & Settings</h1>
+
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold text-gray-700 border-b pb-4 mb-4">Personal Information</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <BaseInput
+            label="Full Name"
+            type="text"
+            :show-icon="false"
+            disabled
+            :model-value="store.fullName"
+          />
+          <BaseInput
+            label="Account Number"
+            type="text"
+            :show-icon="false"
+            disabled
+            :model-value="store.userInfo.acc_no"
+          />
+          <BaseInput
+            label="Email"
+            type="email"
+            :show-icon="false"
+            disabled
+            :model-value="store.userInfo.email"
+          />
+          <BaseInput
+            label="Phone Number"
+            type="tel"
+            :show-icon="false"
+            disabled
+            :model-value="store.userInfo.tel"
+          />
+           <BaseInput
+            label="Account Type"
+            type="text"
+            :show-icon="false"
+            disabled
+            :model-value="store.userInfo.acc_type"
+          />
+          <BaseInput
+            label="Gender"
+            type="text"
+            :show-icon="false"
+            disabled
+            :model-value="store.userInfo.gender"
+          />
         </div>
       </div>
-      <div
-        class="w-full bg-white p-4 shadow grid lg:grid-cols-2 grid-cols-1 gap-3"
-      >
-        <BaseInput
-          label="Account number"
-          type="text"
-          :show-icon="false"
-          disabled
-          v-model="store.userInfo.acc_no"
-        />
-        <BaseInput
-          label="Account type"
-          type="text"
-          :show-icon="false"
-          disabled
-          v-model="store.userInfo.acc_type"
-        />
-        <BaseInput
-          label="Email"
-          type="text"
-          :show-icon="false"
-          disabled
-          v-model="store.userInfo.email"
-        />
-        <BaseInput
-          label="Phone number"
-          type="tel"
-          :show-icon="false"
-          disabled
-          v-model="store.userInfo.tel"
-        />
-        <BaseInput
-          label="Gender"
-          type="text"
-          :show-icon="false"
-          disabled
-          v-model="store.userInfo.gender"
-        />
-      </div>
-      <div class="w-full min-h-40 grid lg:grid-cols-2 grid-cols-1 gap-4">
-        <div class="h-fit bg-white p-4 shadow flex flex-col gap-3">
-          <h2 class="font-semibold text-base text-slight-dark mb-4">
-            Change password
-          </h2>
-          <BaseInput
-            label="Current password"
-            placeholder="Enter your current password"
-            type="password"
-            :show-icon="false"
-            v-model="password"
-          />
-          <BaseInput
-            label="New password"
-            placeholder="Enter your new password"
-            :show-icon="false"
-            type="password"
-            v-model="newpassword"
-          />
-          <BaseInput
-            label="Confirm new password"
-            placeholder="Confirm new password"
-            :show-icon="false"
-            type="password"
-            v-model="confirmNewPassword"
-          />
-          <Error v-if="errPass" :err-m-s-g="errMsg" />
-          <div class="lg:col-span-2 w-full grid">
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow-md h-fit">
+          <h2 class="text-xl font-semibold text-gray-700 mb-4">Change Password</h2>
+          <form @submit.prevent="changePassword" class="space-y-4">
+            <BaseInput
+              label="Current Password"
+              placeholder="Enter your current password"
+              type="password"
+              :show-icon="false"
+              v-model="password"
+            />
+            <BaseInput
+              label="New Password"
+              placeholder="Enter your new password"
+              :show-icon="false"
+              type="password"
+              v-model="newpassword"
+            />
+            <BaseInput
+              label="Confirm New Password"
+              placeholder="Confirm new password"
+              :show-icon="false"
+              type="password"
+              v-model="confirmNewPassword"
+            />
+            <Error v-if="errPass" :errMSG="errMsg" />
             <button
-              @click="changePassword"
-              class="lg:w-1/2 w-full h-fit bg-Lightblue text-white text-sm p-2 rounded-md place-content-center"
+              type="submit"
+              class="w-full h-fit bg-slate-600 text-white text-sm p-3 rounded-md hover:bg-slate-700 transition-colors"
             >
-              Change password
+              Update Password
             </button>
-          </div>
+          </form>
         </div>
-        <div class="h-fit bg-white p-4 shadow flex flex-col gap-3">
-          <h2 class="font-semibold text-base text-slight-dark mb-4">
-            Change pin
-          </h2>
-          <BaseInput
-            label="Current pin"
-            placeholder="Enter your current pin"
-            type="password"
-            :show-icon="false"
-            v-model="pin"
-          />
-          <BaseInput
-            label="New pin"
-            placeholder="Enter your new pin"
-            :show-icon="false"
-            type="password"
-            v-model="newpin"
-          />
-          <BaseInput
-            label="Confirm new pin"
-            placeholder="Confirm new pin"
-            :show-icon="false"
-            type="password"
-            v-model="confirmNewPin"
-          />
-          <Error v-if="errPin" :err-m-s-g="errMsg" />
-          <div class="lg:col-span-2 w-full grid">
+
+        <div class="bg-white p-6 rounded-lg shadow-md h-fit">
+          <h2 class="text-xl font-semibold text-gray-700 mb-4">Change PIN</h2>
+          <form @submit.prevent="changePin" class="space-y-4">
+            <BaseInput
+              label="Current PIN"
+              placeholder="Enter your current PIN"
+              type="password"
+              :show-icon="false"
+              v-model="pin"
+            />
+            <BaseInput
+              label="New PIN"
+              placeholder="Enter your new PIN"
+              :show-icon="false"
+              type="password"
+              v-model="newpin"
+            />
+            <BaseInput
+              label="Confirm New PIN"
+              placeholder="Confirm new PIN"
+              :show-icon="false"
+              type="password"
+              v-model="confirmNewPin"
+            />
+            <Error v-if="errPin" :errMSG="errMsg" />
             <button
-              @click="changePin"
-              class="lg:w-1/2 w-full h-fit bg-Lightblue text-white text-sm p-2 rounded-md place-content-center"
+              type="submit"
+              class="w-full h-fit bg-slate-600 text-white text-sm p-3 rounded-md hover:bg-slate-700 transition-colors"
             >
-              Change pin
+              Update PIN
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -135,9 +133,9 @@ import Error from "@/components/Error.vue";
 import Loader from "@/components/Loader.vue";
 import SuccessModal from "@/components/SuccessModal.vue";
 import { useCounterStore } from "@/stores/counter";
-const store = useCounterStore();
 import { ref, watch } from "vue";
 
+const store = useCounterStore();
 const password = ref("");
 const newpassword = ref("");
 const confirmNewPassword = ref("");
@@ -152,71 +150,72 @@ const errPin = ref(false);
 const errPass = ref(false);
 
 const changePassword = async () => {
+  if (newpassword.value !== confirmNewPassword.value) {
+    errPass.value = true;
+    errMsg.value = "Passwords do not match.";
+    return;
+  }
   loading.value = true;
+  errPass.value = false;
   try {
-    const { data } = await npcAPI.patch(
+    await npcAPI.patch(
       "/change_password",
-      {
-        new_password: newpassword.value,
-        old_password: password.value,
-      },
-      {
-        headers: {
-          Authorization: getToken("user"),
-        },
-      }
+      { new_password: newpassword.value, old_password: password.value },
+      { headers: { Authorization: getToken("user") } }
     );
     success.value = true;
-    successMsg.value = "Passwords have been change successfully";
-    console.log(data);
+    successMsg.value = "Password changed successfully.";
+    password.value = "";
+    newpassword.value = "";
+    confirmNewPassword.value = "";
   } catch (e) {
     errPass.value = true;
-    errMsg.value = e.response.data.msg || "Something went wrong";
-    console.log(data);
-  } finally {
-    loading.value = false;
-  }
-};
-const changePin = async () => {
-  loading.value = true;
-  try {
-    const { data } = await npcAPI.patch(
-      "/change_pin",
-      {
-        new_pin: newpin.value,
-        old_pin: pin.value,
-      },
-      {
-        headers: {
-          Authorization: getToken("user"),
-        },
-      }
-    );
-    success.value = true;
-    successMsg.value = "Passwords have been change successfully";
-    console.log(data);
-  } catch (e) {
-    errPin.value = true;
-    errMsg.value = e.response.data.msg || "Something went wrong";
-    console.log(data);
+    errMsg.value = e.response?.data?.msg || "Failed to change password.";
   } finally {
     loading.value = false;
   }
 };
 
-watch(confirmNewPassword, (newSSN) => {
-  if (newSSN !== newpassword.value) {
+const changePin = async () => {
+  if (newpin.value !== confirmNewPin.value) {
+    errPin.value = true;
+    errMsg.value = "PINs do not match.";
+    return;
+  }
+  loading.value = true;
+  errPin.value = false;
+  try {
+    await npcAPI.patch(
+      "/change_pin",
+      { new_pin: newpin.value, old_pin: pin.value },
+      { headers: { Authorization: getToken("user") } }
+    );
+    success.value = true;
+    successMsg.value = "PIN changed successfully.";
+    pin.value = "";
+    newpin.value = "";
+    confirmNewPin.value = "";
+  } catch (e) {
+    errPin.value = true;
+    errMsg.value = e.response?.data?.msg || "Failed to change PIN.";
+  } finally {
+    loading.value = false;
+  }
+};
+
+watch(confirmNewPassword, (newValue) => {
+  if (newValue && newValue !== newpassword.value) {
     errPass.value = true;
-    errMsg.value = "Passwords do not match";
+    errMsg.value = "Passwords do not match.";
   } else {
     errPass.value = false;
   }
 });
 
-watch(confirmNewPin, (newSSN) => {
-  if (newSSN !== newpin.value) {
+watch(confirmNewPin, (newValue) => {
+  if (newValue && newValue !== newpin.value) {
     errPin.value = true;
-    errMsg.value = "Pins do not match";
+    errMsg.value = "PINs do not match.";
   } else {
     errPin.value = false;
   }

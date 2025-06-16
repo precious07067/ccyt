@@ -11,7 +11,7 @@
     <p>{{ origin }}/register?ref={{ test }}</p>
     <div class="mt-3 w-full">
       <RouterLink
-        :to="`/admin/users/${user._id}`"
+        :to="`/admin/users/${user.id}`"
         v-for="(user, index) in users"
         :key="index"
       >

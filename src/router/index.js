@@ -157,15 +157,24 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    localStorage.getItem("token") ? next() : next("/login");
-  } else {
-    next();
-  }
-});
-router.beforeEach(async (to, from, next) => {
-  if (to.matched.some((record) => record.meta.admin)) {
-    localStorage.getItem("admin") ? next() : next("/");
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const requiresAdminAuth = to.matched.some(record => record.meta.requiresAdminAuth);
+
+  const userToken = localStorage.getItem("token");
+  const adminToken = localStorage.getItem("admin");
+
+  if (requiresAdminAuth) {
+    if (adminToken) {
+      next();
+    } else {
+      next("/adminLogin");
+    }
+  } else if (requiresAuth) {
+    if (userToken) {
+      next();
+    } else {
+      next("/login");
+    }
   } else {
     next();
   }

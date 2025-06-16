@@ -57,6 +57,7 @@ const login = async () => {
     const { data } = await adminAPI.post("/login", {
       ...userDetails.value,
     });
+    console.log(data)
     localStorage.setItem("admin", data.token);
     const { data: adminDetail } = await adminAPI.get("/admin_detail", 
     {
