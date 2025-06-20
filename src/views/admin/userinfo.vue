@@ -199,7 +199,7 @@ const updateUser = async () => {
   const token = localStorage.getItem("admintoken");
   try {
     const { data } = await adminAPI.patch(
-      `/user/${route.params.id}`,
+      `/users/${route.params.id}`,
       {
         ...user_details.value,
       },
