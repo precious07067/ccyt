@@ -42,8 +42,9 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <p class="text-gray-500">Customer</p>
-                <router-link :to="`/admin/users/${shipment.customer.id}`" class="font-semibold text-gray-800 hover:text-orange-600 hover:underline">
-                  {{ shipment.customer.first_name }} {{ shipment.customer.last_name }}
+                <router-link :to="`/admin/users/${shipment?.customer?.id}`" class="font-semibold text-gray-800 hover:text-orange-600 hover:underline">
+                  {{ shipment?.customer?.first_name }} {{ shipment?.customer?.last_name }}
+
                 </router-link>
               </div>
               <div>

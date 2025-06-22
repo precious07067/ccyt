@@ -45,7 +45,7 @@
                 {{ shipment.tracking_no }}
               </td>
               <td class="px-6 py-4">
-                {{ shipment.customer.first_name }} {{ shipment.customer.last_name }}
+                {{ shipment?.customer?.first_name }} {{ shipment?.customer?.last_name }}
               </td>
               <td class="px-6 py-4">
                 {{ shipment.item_type }}
